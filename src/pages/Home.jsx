@@ -27,7 +27,11 @@ export default function Home() {
           >
             login
           </Button>
-          <Button colorScheme="yellow" fontSize="lg">
+          <Button
+            colorScheme="yellow"
+            fontSize="lg"
+            onClick={() => navigate('/dashboard')}
+          >
             Start Recording Attendance
           </Button>{' '}
           {/* TODO: make the button navigate to the dashboard */}
