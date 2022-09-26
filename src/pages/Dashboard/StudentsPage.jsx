@@ -1,33 +1,46 @@
 import {
-  Select,
-  Input,
-  VStack,
+  Box,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   Flex,
   Button,
   Text,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import StudentService from '../../utils/students.util';
 
 import AddStudentForm from '../../components/students/AddStudentForm';
+import StudentsList from '../../components/students/StudentsList';
 
 export default function FingerPrint() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [students, setStudents] = useState(null);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const showToastError = () => {
+    toast.error('Error Message', {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+  };
+
+  useEffect(() => {
+    setIsFetching(true);
+
+    StudentService.getStudentList()
+      .then((response) => {
+        setStudents(response.data);
+      })
+      .catch((error) => showToastError())
+      .finally(() => {
+        setIsFetching(false);
+      });
+  }, []);
 
   return (
     <>
@@ -49,13 +62,15 @@ export default function FingerPrint() {
 
           <ModalCloseButton />
           <ModalBody mb={4}>
-            <AddStudentForm />
+            <AddStudentForm onClose={onclose} />
           </ModalBody>
         </ModalContent>
       </Modal>
 
       {/* Main content */}
-      <Flex></Flex>
+      <Box mt={10}>
+        <StudentsList students={students} />
+      </Box>
     </>
   );
 }

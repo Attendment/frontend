@@ -1,9 +1,11 @@
-import { VStack, Button } from '@chakra-ui/react';
+import { useToast, VStack, Button } from '@chakra-ui/react';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FormInput from '../forms/FormInput';
 import FormSelect from '../forms/FormSelect';
+import { useProgrammes } from '../../hooks/programme';
+import StudentService from '../../utils/students.util';
 
 const level_options = [
   {
@@ -28,18 +30,10 @@ const level_options = [
   },
 ];
 
-const programmes = [
-  {
-    id: '82342sdfadr2343',
-    name: 'Electrical Engineering',
-  },
-  {
-    id: 'sdfa89wdfad23432',
-    name: 'Computer Engineering',
-  },
-];
+const AddStudentForm = ({ onClose }) => {
+  const { isFetching, programmes } = useProgrammes();
+  const toast = useToast();
 
-const AddStudentForm = () => {
   const initialValues = {
     first_name: '',
     other_names: '',
@@ -60,8 +54,27 @@ const AddStudentForm = () => {
     programme_of_study: Yup.string().required('Programme of study is required'),
   });
 
-  const handleSubmit = (values, { setSubmitting, setErrors }) => {
-    console.log(values);
+  const handleSubmit = (values, { setSubmitting, setErrors, resetForm }) => {
+    StudentService.addStudent(values)
+      .then((res) => {
+        if (res.status == 201) {
+          toast({
+            title: 'Student Created Successfully',
+            description: `Student with ID: ${values.student_id} and Index Number: ${values.index_number} has been created`,
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+            position: 'top',
+          });
+          resetForm();
+        }
+        // Close the popup modal when the submission is a success
+      })
+      .catch((errors) => {
+        setErrors(errors.response?.data);
+      })
+      .finally(console.log('Done'));
+
     setSubmitting(false);
   };
 

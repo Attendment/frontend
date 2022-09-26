@@ -18,10 +18,10 @@ const FormInput = (props) => (
       borderColor={props.borderColor ? props.borderColor : 'gray.400'}
       name={props.name}
       onChange={props.handleChange}
-      onBlur={props.handleBlur}
       value={props.values[props.name]}
     >
-      {props.options.map((option) => (
+      <option value="">------------------</option>
+      {props.options?.map((option) => (
         <option key={option['id']} value={option[props.option_value]}>
           {option[props.option_label]}
         </option>
