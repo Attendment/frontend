@@ -16,6 +16,7 @@ import '@fontsource/quicksand/700.css';
 
 import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './pages/Login';
+import StudentsPage from './pages/Dashboard/StudentsPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,12 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <Dashboard />,
+    children: [
+      {
+        path: 'students',
+        element: <StudentsPage />,
+      },
+    ],
   },
 ]);
 

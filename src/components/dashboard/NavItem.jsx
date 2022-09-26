@@ -1,12 +1,13 @@
 import { Link, Flex, Icon, Text, MenuButton, Menu } from '@chakra-ui/react';
 import { Link as ReactLink } from 'react-router-dom';
 
-const NavItem = ({ icon, title }) => {
+const NavItem = ({ icon, title, to }) => {
   return (
     <Flex flexDirection={'column'} w="100%" alignItems="flex-start">
       <Menu>
         <Link
           as={ReactLink}
+          to={to}
           _hover={{ textDecoration: 'none', color: 'blue.600' }}
         >
           <MenuButton>

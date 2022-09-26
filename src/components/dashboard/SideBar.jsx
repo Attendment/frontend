@@ -1,7 +1,7 @@
 import { Button, Divider, Flex, Heading, VStack } from '@chakra-ui/react';
 import NavItem from './NavItem';
 
-import { HiHome } from 'react-icons/hi';
+import { HiHome, HiUserGroup } from 'react-icons/hi';
 
 const SideBar = () => {
   return (
@@ -24,14 +24,13 @@ const SideBar = () => {
           alignItems="flex-start"
           px={2}
         >
+          <NavItem icon={HiUserGroup} to="students" title="Students" />
           <NavItem icon={HiHome} title="Invigilators" />
-          <NavItem icon={HiHome} title="Students" />
           <NavItem icon={HiHome} title="Rooms" />
           <NavItem icon={HiHome} title="Exams" />
           <NavItem icon={HiHome} title="Programmes" />
           <NavItem icon={HiHome} title="Students Attendances" />
           <NavItem icon={HiHome} title="Exam Attendances" />
-          <NavItem icon={HiHome} title="Fingerprints" />
         </VStack>
       </Flex>
       <Flex flexDirection={'column'}>
