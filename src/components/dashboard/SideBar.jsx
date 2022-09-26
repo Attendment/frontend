@@ -14,7 +14,7 @@ const SideBar = () => {
       boxShadow="lg"
     >
       <Flex flexDirection={'column'}>
-        <Heading fontSize={'3xl'} textAlign={'center'} color="gray.700" pt={5}>
+        <Heading fontSize={'2xl'} textAlign={'center'} color="gray.700" pt={5}>
           Dashboard
         </Heading>
         <VStack
@@ -31,6 +31,7 @@ const SideBar = () => {
           <NavItem icon={HiHome} title="Programmes" />
           <NavItem icon={HiHome} title="Students Attendances" />
           <NavItem icon={HiHome} title="Exam Attendances" />
+          <NavItem icon={HiHome} title="Fingerprints" />
         </VStack>
       </Flex>
       <Flex flexDirection={'column'}>
