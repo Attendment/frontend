@@ -36,9 +36,7 @@ const StudentsList = ({ students }) => {
               <Td>{student.programme_name}</Td>
               <Td>
                 <ButtonGroup>
-                  <Button colorScheme="blue">View</Button>
-                  <Button colorScheme="orange">Update</Button>
-                  <Button colorScheme="red">Delete</Button>
+                  <Button colorScheme="orange">Enroll Fingerprint</Button>
                 </ButtonGroup>
               </Td>
             </Tr>
