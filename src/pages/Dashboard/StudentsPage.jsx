@@ -29,11 +29,6 @@ import AddStudentForm from '../../components/students/AddStudentForm';
 export default function FingerPrint() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleSubmit = (values, { setSubmitting, setErrors }) => {
-    console.log(values);
-    setSubmitting(false);
-  };
-
   return (
     <>
       {/* Top Bar */}

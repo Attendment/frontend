@@ -115,7 +115,7 @@ const AddStudentForm = () => {
               isRequired={true}
             />
             <FormInput
-              name="student id"
+              name="student_id"
               label="Student ID"
               type="text"
               errors={errors}
@@ -126,7 +126,7 @@ const AddStudentForm = () => {
               isRequired={true}
             />
             <FormInput
-              name="index number"
+              name="index_number"
               label="Index Number"
               type="text"
               errors={errors}
