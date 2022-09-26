@@ -4,6 +4,7 @@ import {
   FormErrorMessage,
   Input,
 } from '@chakra-ui/react';
+import { Field } from 'formik';
 
 const FormInput = (props) => (
   <FormControl
@@ -11,7 +12,9 @@ const FormInput = (props) => (
     isInvalid={props.errors[props.name] && props.touched[props.name]}
   >
     <FormLabel fontWeight="semibold">{props.label}</FormLabel>
-    <Input
+    <Field
+      as={Input}
+      borderColor={props.borderColor ? props.borderColor : 'gray.400'}
       name={props.name}
       type={props.type}
       onChange={props.handleChange}

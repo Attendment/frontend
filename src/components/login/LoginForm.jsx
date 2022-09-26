@@ -22,15 +22,17 @@ const LoginForm = () => {
     password: Yup.string().required('Password is required'),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, { setSubmitting, setErrors }) => {
     console.log(values);
+
+    setSubmitting(false);
   };
 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={loginValidationSchema}
-      onSubmit={(values) => handleSubmit}
+      onSubmit={handleSubmit}
     >
       {({
         errors,
