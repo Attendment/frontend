@@ -13,12 +13,17 @@ import '@fontsource/quicksand/400.css';
 import '@fontsource/quicksand/500.css';
 import '@fontsource/quicksand/600.css';
 import '@fontsource/quicksand/700.css';
+import LoginPage from './pages/Login';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Home />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
   },
 ]);
 
