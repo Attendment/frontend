@@ -12,10 +12,15 @@ const addStudent = async (data) => {
   return await axios_instance.post('students/', data);
 };
 
+const updateStudent = async (data) => {
+  return await axios_instance.patch(`students/${data.id}/`, data);
+};
+
 const StudentService = {
   getStudentList,
   getStudentData,
   addStudent,
+  updateStudent,
 };
 
 export default StudentService;

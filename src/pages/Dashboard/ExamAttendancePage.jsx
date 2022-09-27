@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Modal,
@@ -13,30 +14,25 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import StudentService from '../../utils/students.util';
+import ExamAttendanceService from '../../utils/exam-attendance.utils';
 
 import AddStudentForm from '../../components/students/AddStudentForm';
-import StudentsList from '../../components/students/StudentsList';
+import ExamAttendanceList from '../../components/attendances/ExamAttendanceList.jsx';
 
-export default function StudentsPage() {
+export default function ExamAttendancePage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [students, setStudents] = useState(null);
+  const [examAttendances, setExamAttendances] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-
-  const showToastError = () => {
-    toast.error('Error Message', {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsFetching(true);
 
-    StudentService.getStudentList()
+    ExamAttendanceService.getExamAttendanceList()
       .then((response) => {
-        setStudents(response.data);
+        setExamAttendances(response?.data);
       })
-      .catch((error) => showToastError())
+      .catch((error) => console.log(error))
       .finally(() => {
         setIsFetching(false);
       });
@@ -47,10 +43,13 @@ export default function StudentsPage() {
       {/* Top Bar */}
       <Flex justify="space-between">
         <Text fontWeight="bold" fontSize={'3xl'}>
-          Students
+          All Exam Attendance Records
         </Text>
-        <Button onClick={onOpen} colorScheme="yellow">
-          Enroll Student
+        <Button
+          onClick={() => navigate('/dashboard/record-attendance')}
+          colorScheme="yellow"
+        >
+          Record New Attendance
         </Button>
       </Flex>
 
@@ -68,7 +67,7 @@ export default function StudentsPage() {
 
       {/* Main content */}
       <Box mt={10}>
-        <StudentsList students={students} />
+        <ExamAttendanceList examAttendances={examAttendances} />
       </Box>
     </>
   );

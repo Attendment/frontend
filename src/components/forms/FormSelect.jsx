@@ -2,12 +2,11 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  Input,
   Select,
 } from '@chakra-ui/react';
 import { Field } from 'formik';
 
-const FormInput = (props) => (
+const FormSelect = (props) => (
   <FormControl
     isRequired={props.isRequired}
     isInvalid={props.errors[props.name] && props.touched[props.name]}
@@ -35,4 +34,4 @@ const FormInput = (props) => (
   </FormControl>
 );
 
-export default FormInput;
+export default FormSelect;

@@ -30,7 +30,7 @@ export default function Home() {
           <Button
             colorScheme="yellow"
             fontSize="lg"
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/dashboard/students/')}
           >
             Start Recording Attendance
           </Button>{' '}

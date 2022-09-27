@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import Moment from 'moment';
 import {
   Table,
   Thead,
@@ -22,10 +22,10 @@ import {
 
 import EnrollFingerprintForm from '../students/EnrollFingerprintForm';
 
-const StudentsList = ({ students }) => {
+const StudentsList = ({ examAttendances }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [id, setId] = useState(null);
-
+  const format1 = 'dddd, MMMM Do YYYY, h:mm:ss a';
   const openModal = (id) => {
     setId((prevId) => id);
     onOpen();
@@ -48,36 +48,37 @@ const StudentsList = ({ students }) => {
 
       <TableContainer>
         <Table variant="simple">
-          <TableCaption>All enrolled students</TableCaption>
+          <TableCaption>All Examination Attendances</TableCaption>
           <Thead>
             <Tr>
-              <Th>Full Name</Th>
-              <Th>Student ID</Th>
-              <Th>Index Number</Th>
-              <Th>Programme</Th>
+              <Th>Exam Name</Th>
+              <Th>Course Code</Th>
+              <Th>Level</Th>
+              <Th>Exam Start Date</Th>
+              <Th>Exam End Date</Th>
+              <Th>Exam Room</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {students?.map((student) => (
-              <Tr key={student.id}>
-                <Td>{student.full_name}</Td>
-                <Td>{student.student_id}</Td>
-                <Td>{student.index_number}</Td>
-                <Td>{student.programme_name}</Td>
-                <Td>
-                  {student.fingerprint ? (
-                    <Text>Fingerprint Enrolled</Text>
-                  ) : (
-                    <Button
-                      colorScheme="orange"
-                      onClick={() => openModal(student.id)}
-                    >
-                      Enroll Fingerprint
-                    </Button>
-                  )}
-                </Td>
-              </Tr>
-            ))}
+            {examAttendances?.map((examAttendance) => {
+              const start_time = Moment(examAttendance.exam['start']).format(
+                format1
+              );
+              const end_time = Moment(examAttendance.exam['end']).format(
+                format1
+              );
+
+              return (
+                <Tr key={examAttendance.id}>
+                  <Td>{examAttendance.exam['course_name']}</Td>
+                  <Td>{examAttendance.exam['course_code']}</Td>
+                  <Td>{examAttendance.exam['level']}</Td>
+                  <Td>{start_time}</Td>
+                  <Td>{end_time}</Td>
+                  <Td>{examAttendance.room['name']} </Td>
+                </Tr>
+              );
+            })}
           </Tbody>
         </Table>
       </TableContainer>

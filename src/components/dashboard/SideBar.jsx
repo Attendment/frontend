@@ -31,16 +31,18 @@ const SideBar = () => {
           px={2}
         >
           <NavItem icon={HiUserGroup} to="students" title="Students" />
-          <NavItem icon={HiDocumentReport} title="Exam Attendances" />
           <NavItem
-            icon={HiOutlineDocumentDuplicate}
-            title="Student Attendances"
+            icon={HiDocumentReport}
+            to="exam-attendance"
+            title="Exam Attendances"
           />
         </VStack>
       </Flex>
       <Flex flexDirection={'column'}>
         <Divider />
-        <Button colorScheme="red">Logout</Button>
+        <Button variant={'outline'} rounded={0} colorScheme="red">
+          Logout
+        </Button>
       </Flex>
     </Flex>
   );

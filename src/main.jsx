@@ -17,6 +17,8 @@ import '@fontsource/quicksand/700.css';
 import Dashboard from './pages/Dashboard/Dashboard';
 import LoginPage from './pages/Login';
 import StudentsPage from './pages/Dashboard/StudentsPage';
+import ExamAttendancePage from './pages/Dashboard/ExamAttendancePage';
+import ExamAttendanceRecordNewPage from './pages/Dashboard/ExamAttendanceRecordNewPage';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: 'students',
         element: <StudentsPage />,
+      },
+      {
+        path: 'exam-attendance',
+        element: <ExamAttendancePage />,
+      },
+      {
+        path: 'record-attendance',
+        element: <ExamAttendanceRecordNewPage />,
       },
     ],
   },
