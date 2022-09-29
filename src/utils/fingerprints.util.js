@@ -16,11 +16,16 @@ const updateFingerprint = async (data) => {
   return await axios_instance.patch(`fingerprints/${data.id}/`, data);
 };
 
+const getLatestFingerprint = async () => {
+  return await axios_instance.get(`fingerprints/latest/`);
+}
+
 const FingerprintService = {
   getFingerprintList,
   getFingerprintData,
   addFingerprint,
   updateFingerprint,
+  getLatestFingerprint
 };
 
 export default FingerprintService;

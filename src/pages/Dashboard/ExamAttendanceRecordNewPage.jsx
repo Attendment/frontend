@@ -9,10 +9,13 @@ import {
   FingerprintCheck,
   FingerprintResult,
 } from "../../components/attendances/FingerprintCheckResult";
-
+import ExamAttendanceService from "../../utils/exam-attendance.utils"
+import FingerprintService from "../../utils/fingerprints.util";
 
 export default function ExamAttendanceRecordNewPage({ onClose }) {
   const [exams, setExams] = useState([]);
+  const [latestFingerprint,setLatestFingerprint] = useState({state:false,student:null});
+  const [fingerprintResult,setFingerPrintResult] = useState(false);
     const {
     isOpen: checkFingerprintIsOpen,
     onOpen: checkFingerprintOnOpen,
@@ -55,7 +58,31 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
     exam: Yup.string().required("Exam is required"),
   });
 
-  const handleSubmit = (values, { setSubmitting, setErrors, resetForm }) => {};
+  // const verifyFingerprint = async () => {
+  //   checkFingerprintOnOpen();
+  //   const latestFingerprintData = await FingerprintService.getLatestFingerprint();
+  //   setLatestFingerprint(latestFingerprintData.data)
+  //   if(!(latestFingerprintData.data.student === null) && (latestFingerprint.student === null)){
+  //     setFingerPrintResult(true);
+  //     checkFingerprintOnClose();
+  //     fingerprintResultOnOpen();      
+  //     console.log(latestFingerprintData.data)
+  //     fingerprintResultOnClose();
+  //     checkFingerprintOnOpen();
+  //     setFingerPrintResult(false);
+  //   }
+  //   // checkFingerprintOnClose();
+  // }
+
+  const handleSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
+    const createdExamAttendance = await ExamAttendanceService.addExamAttendance(values);
+    console.log(createdExamAttendance.data);
+    if(createdExamAttendance.status === 201){
+      await verifyFingerprint()
+    }
+    checkFingerprintOnClose();
+    setSubmitting(false)
+  };
 
   return (
     <Flex justify="center">
@@ -113,7 +140,7 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
                 colorScheme="green"
                 // type="submit"
                 disabled={isSubmitting}
-                onClick={checkFingerprint}
+                onClick={handleSubmit}
               >
                 Start Recording Attendance
               </Button>
@@ -122,7 +149,7 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
         </Formik>
       </Box>{" "}
         <FingerprintCheck isOpen={checkFingerprintIsOpen} onClose={checkFingerprintOnClose} />
-        <FingerprintResult state={false} isOpen={fingerprintResultIsOpen} onClose={fingerprintResultOnClose} />
+        <FingerprintResult state={fingerprintResult} isOpen={fingerprintResultIsOpen} onClose={fingerprintResultOnClose} />
     </Flex>
   );
 }
