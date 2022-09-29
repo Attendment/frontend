@@ -18,7 +18,7 @@ import FingerprintService from "../../utils/fingerprints.util";
 import { useEffect } from "react";
 
 
-const FingerprintCheck = ({ isOpen, onClose,setPrintResult,fingerprintResultOnClose,fingerprintResultOnOpen,setModal }) => {
+const FingerprintCheck = ({ isOpen, onClose,setPrintResult,fingerprintResultOnClose,fingerprintResultOnOpen,setModal,setStudent }) => {
   const [latestFingerprint,setLatestFingerprint] = useState(null);
 
   async function wait(){
@@ -30,6 +30,7 @@ const FingerprintCheck = ({ isOpen, onClose,setPrintResult,fingerprintResultOnCl
     if(latestFingerprint === null){
       console.log(latestFingerprintData.data)
       setLatestFingerprint(latestFingerprintData.data);
+      setStudent(latestFingerprintData.data.student.full_name)
       if(latestFingerprintData.data.state === true){
         setPrintResult(true);
         fingerprintResultOnOpen()
@@ -42,11 +43,14 @@ const FingerprintCheck = ({ isOpen, onClose,setPrintResult,fingerprintResultOnCl
       }else if(latestFingerprint.id !== latestFingerprintData.data.id){
         console.log(latestFingerprintData.data)
         setLatestFingerprint(latestFingerprintData.data);
-        if(latestFingerprintData.state === true){
+        setStudent(latestFingerprintData.data.student.full_name)
+        if(latestFingerprintData.data.state === true){
+          console.log(latestFingerprintData.data.student)
           setPrintResult(true);
           fingerprintResultOnOpen()
           await wait()
         }else{
+          console.log(latestFingerprintData.data.student)
           setPrintResult(false);
           fingerprintResultOnOpen()
           await wait()
@@ -84,7 +88,7 @@ const FingerprintCheck = ({ isOpen, onClose,setPrintResult,fingerprintResultOnCl
   );
 };
 
-const FingerprintResult = ({ state, isOpen, onClose }) => {
+const FingerprintResult = ({ state, isOpen, onClose,student }) => {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -100,8 +104,8 @@ const FingerprintResult = ({ state, isOpen, onClose }) => {
                 <AiFillCloseCircle color="red" size="10em" />
               )}
               {state
-                ? "Student has been allocated to this room"
-                : "Student has not been allocated to this room"}
+                ? `${student} has been allocated to this room`
+                : `${student} has not been allocated to this room`}
             </Container>
           </ModalBody>
           <ModalFooter>

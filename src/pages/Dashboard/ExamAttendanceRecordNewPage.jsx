@@ -15,6 +15,7 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
   const [exams, setExams] = useState([]);
   const [modal,setModal] = useState(false);
   const [fingerprintResult,setFingerprintResult] = useState(false);
+  const [student,setStudent] = useState('')
     const {
     isOpen: checkFingerprintIsOpen,
     onOpen: checkFingerprintOnOpen,
@@ -135,9 +136,9 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
       </Box>
       {
         modal &&
-      <FingerprintCheck isOpen={checkFingerprintIsOpen} onClose={checkFingerprintOnClose} setPrintResult={setFingerprintResult} fingerprintResultOnClose={fingerprintResultOnClose} fingerprintResultOnOpen={fingerprintResultOnOpen} setModal={setModal}/>
+      <FingerprintCheck isOpen={checkFingerprintIsOpen} onClose={checkFingerprintOnClose} setPrintResult={setFingerprintResult} fingerprintResultOnClose={fingerprintResultOnClose} fingerprintResultOnOpen={fingerprintResultOnOpen} setModal={setModal} setStudent={setStudent}/>
       }
-      <FingerprintResult state={fingerprintResult} isOpen={fingerprintResultIsOpen} onClose={fingerprintResultOnClose} />
+      <FingerprintResult state={fingerprintResult} isOpen={fingerprintResultIsOpen} onClose={fingerprintResultOnClose} student={student}/>
     </Flex>
   );
 }
