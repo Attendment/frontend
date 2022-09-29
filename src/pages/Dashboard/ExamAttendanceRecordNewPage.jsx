@@ -10,12 +10,11 @@ import {
   FingerprintResult,
 } from "../../components/attendances/FingerprintCheckResult";
 import ExamAttendanceService from "../../utils/exam-attendance.utils"
-import FingerprintService from "../../utils/fingerprints.util";
 
 export default function ExamAttendanceRecordNewPage({ onClose }) {
   const [exams, setExams] = useState([]);
-  const [latestFingerprint,setLatestFingerprint] = useState({state:false,student:null});
-  const [fingerprintResult,setFingerPrintResult] = useState(false);
+  const [modal,setModal] = useState(false);
+  const [fingerprintResult,setFingerprintResult] = useState(false);
     const {
     isOpen: checkFingerprintIsOpen,
     onOpen: checkFingerprintOnOpen,
@@ -46,41 +45,27 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
     room: "",
   };
 
-  const checkFingerprint = () => {
-    checkFingerprintOnOpen();
-    setTimeout(() => {
-      checkFingerprintOnClose();
-      fingerprintResultOnOpen();      
-    }, 5000);
-  };
+  // const checkFingerprint = async () => {
+  //   checkFingerprintOnOpen();
+  //   // // verifyFingerprint();
+  //   // setInterval(async() => {
+  //   //   await verifyFingerprint()     
+  //   // }, 3000);
+  // };
 
   const validationSchema = Yup.object().shape({
     exam: Yup.string().required("Exam is required"),
   });
 
-  // const verifyFingerprint = async () => {
-  //   checkFingerprintOnOpen();
-  //   const latestFingerprintData = await FingerprintService.getLatestFingerprint();
-  //   setLatestFingerprint(latestFingerprintData.data)
-  //   if(!(latestFingerprintData.data.student === null) && (latestFingerprint.student === null)){
-  //     setFingerPrintResult(true);
-  //     checkFingerprintOnClose();
-  //     fingerprintResultOnOpen();      
-  //     console.log(latestFingerprintData.data)
-  //     fingerprintResultOnClose();
-  //     checkFingerprintOnOpen();
-  //     setFingerPrintResult(false);
-  //   }
-  //   // checkFingerprintOnClose();
-  // }
 
   const handleSubmit = async (values, { setSubmitting, setErrors, resetForm }) => {
     const createdExamAttendance = await ExamAttendanceService.addExamAttendance(values);
     console.log(createdExamAttendance.data);
     if(createdExamAttendance.status === 201){
-      await verifyFingerprint()
+      checkFingerprintOnOpen();
+      setModal(true)
     }
-    checkFingerprintOnClose();
+    // checkFingerprintOnClose();
     setSubmitting(false)
   };
 
@@ -147,9 +132,12 @@ export default function ExamAttendanceRecordNewPage({ onClose }) {
             </form>
           )}
         </Formik>
-      </Box>{" "}
-        <FingerprintCheck isOpen={checkFingerprintIsOpen} onClose={checkFingerprintOnClose} />
-        <FingerprintResult state={fingerprintResult} isOpen={fingerprintResultIsOpen} onClose={fingerprintResultOnClose} />
+      </Box>
+      {
+        modal &&
+      <FingerprintCheck isOpen={checkFingerprintIsOpen} onClose={checkFingerprintOnClose} setPrintResult={setFingerprintResult} fingerprintResultOnClose={fingerprintResultOnClose} fingerprintResultOnOpen={fingerprintResultOnOpen} setModal={setModal}/>
+      }
+      <FingerprintResult state={fingerprintResult} isOpen={fingerprintResultIsOpen} onClose={fingerprintResultOnClose} />
     </Flex>
   );
 }

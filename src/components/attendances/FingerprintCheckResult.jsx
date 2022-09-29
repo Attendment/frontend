@@ -13,11 +13,56 @@ import {
 import { AiFillCloseCircle, AiFillCheckCircle } from "react-icons/ai";
 import { MdFingerprint } from "react-icons/md";
 import "../../styles/pulse.css";
+import {useState} from 'react';
+import FingerprintService from "../../utils/fingerprints.util";
+import { useEffect } from "react";
 
-const FingerprintCheck = ({ isOpen, onClose }) => {
+
+const FingerprintCheck = ({ isOpen, onClose,setPrintResult,fingerprintResultOnClose,fingerprintResultOnOpen,setModal }) => {
+  const [latestFingerprint,setLatestFingerprint] = useState(null);
+
+  async function wait(){
+    setTimeout(fingerprintResultOnClose,2000)
+  }
+
+  const verifyFingerprint = async () => {
+    const latestFingerprintData = await FingerprintService.getLatestFingerprint()
+    if(latestFingerprint === null){
+      console.log(latestFingerprintData.data)
+      setLatestFingerprint(latestFingerprintData.data);
+      if(latestFingerprintData.data.state === true){
+        setPrintResult(true);
+        fingerprintResultOnOpen()
+        await wait()
+      }else{
+        setPrintResult(false);
+        fingerprintResultOnOpen()
+        await wait()
+      }
+      }else if(latestFingerprint.id !== latestFingerprintData.data.id){
+        console.log(latestFingerprintData.data)
+        setLatestFingerprint(latestFingerprintData.data);
+        if(latestFingerprintData.state === true){
+          setPrintResult(true);
+          fingerprintResultOnOpen()
+          await wait()
+        }else{
+          setPrintResult(false);
+          fingerprintResultOnOpen()
+          await wait()
+        }
+      }
+  }
+
+  useEffect(()=>{
+    const interval = setInterval(async ()=>{
+      await verifyFingerprint()
+    },2000)
+    return () => clearInterval(interval);
+  },[latestFingerprint])
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={()=>{onClose();setModal(false)}} closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Checking Fingerprint</ModalHeader>
@@ -27,7 +72,9 @@ const FingerprintCheck = ({ isOpen, onClose }) => {
             </Container>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="blue" mr={3} onClick={()=>{
+              onClose();
+              setModal(false)}}>
               Stop
             </Button>
           </ModalFooter>
